@@ -15,6 +15,7 @@
 #include <cmath>
 
 int main(int argc, char **argv) {
+
   TApplication app("app", &argc, argv);
 
   double pi = TMath::Pi();
@@ -32,39 +33,39 @@ int main(int argc, char **argv) {
   int N_events{static_cast<int>(1E5)};
 
   TH1F *hparticletypes =
-      new TH1F("Particle types", "Particle type distribution", 7, 0., 7.);
-  TH1F *hphi = new TH1F("Phi angle", "Phi angle distribution", 360., 0., 6.283);
+      new TH1F("hparticletypes", "Particle type distribution", 7, 0., 7.);
+  TH1F *hphi = new TH1F("hphi", "Phi angle distribution", 360., 0., 6.283);
   TH1F *htheta =
-      new TH1F("Theta angle", "Theta angle distribution", 180., 0., 3.1415);
-  TH1F *himpulse = new TH1F("Impulse", "Impulse distribution", 60., 0., 6.);
-  TH1F *htrimp = new TH1F("Trasverse Impulse", "Trasverse impulse distribution",
-                          60., 0., 6.);
-  TH1F *henergy = new TH1F("Energy", "Energy distrbution", 70., 0., 7.);
-  TH1F *h_all_invmass = new TH1F("Invariant Mass of all particles",
-                                 "Invariant Mass distribution", 200., 0., 2.);
+      new TH1F("htheta", "Theta angle distribution", 180., 0., 3.1415);
+  TH1F *himpulse = new TH1F("himpulse", "Impulse distribution", 60., 0., 6.);
+  TH1F *htrimp =
+      new TH1F("htrimp", "Trasverse impulse distribution", 60., 0., 6.);
+  TH1F *henergy = new TH1F("henergy", "Energy distrbution", 70., 0., 7.);
+  TH1F *h_all_invmass =
+      new TH1F("h_all_invmass", "Invariant Mass distribution", 200., 0., 2.);
 
   TH1F *h_samecharge_invmass = new TH1F(
-      "Invariant Mass of particles with concordant charge sign",
+      "h_samecharge_invmass",
       "Invariant Mass of particles with concordant charge sign distribution",
       200., 0., 2.);
   h_samecharge_invmass->Sumw2();
   TH1F *h_diffcharge_invmass = new TH1F(
-      "Invariant Mass of particles with discordant charge sign",
+      "h_diffcharge_invmass",
       "Invariant Mass of particles with discordant charge sign distribution",
       200., 0., 2.);
   h_diffcharge_invmass->Sumw2();
   TH1F *h_pk_samesign_invmass =
-      new TH1F("InvMass, pk particles, same sign",
+      new TH1F("h_pk_samesign_invmass",
                "Invariant Mass of pk particles with same sign distribution",
                200., 0., 2.);
   h_pk_samesign_invmass->Sumw2();
   TH1F *h_pk_diffsign_invmass = new TH1F(
-      "InvMass, pk particles, different sign",
+      "h_pk_diffsign_invmass",
       "Invariant Mass of pk particles with different sign distribution", 200.,
       0., 2.);
   h_pk_diffsign_invmass->Sumw2();
   TH1F *h_decayed_invmass =
-      new TH1F("Invariant Mass of decayed particles",
+      new TH1F("h_decayed_invmass",
                "Invariant Mass of decayed particles distribution", 200., 0.,
                4.); // valori messi a caso raga
                     // senza pedice : tutte le particelle
@@ -191,27 +192,6 @@ int main(int argc, char **argv) {
     }
   }
 
-  TFile *FileData = new TFile("Histograms2.root", "RECREATE");
-
-  if (!FileData || FileData->IsZombie()) {
-    std::cout << "Errore: impossibile creare il file ROOT!" << std::endl;
-    return 0;
-  }
-  hparticletypes->Write();
-  hphi->Write();
-  htheta->Write();
-  himpulse->Write();
-  htrimp->Write();
-  henergy->Write();
-  h_all_invmass->Write();
-  h_samecharge_invmass->Write();
-  h_diffcharge_invmass->Write();
-  h_pk_samesign_invmass->Write();
-  h_pk_diffsign_invmass->Write();
-  h_decayed_invmass->Write();
-  FileData->Close();
-  std::cout << "Chiusura file ROOT completata." << std::endl;
-
   TCanvas *c0 = new TCanvas("c0", "hparticletypes", 200, 10, 600, 400);
   hparticletypes->Draw();
   TCanvas *c1 = new TCanvas("c1", "hphi", 200, 10, 600, 400);
@@ -236,6 +216,26 @@ int main(int argc, char **argv) {
   h_pk_diffsign_invmass->Draw();
   TCanvas *c11 = new TCanvas("c11", " h_decayed_invmass", 200, 10, 600, 400);
   h_decayed_invmass->Draw();
+  TFile *FileData = new TFile("Histograms2.root", "RECREATE");
+
+  if (!FileData || FileData->IsZombie()) {
+    std::cout << "Errore: impossibile creare il file ROOT!" << std::endl;
+    return 0;
+  }
+  hparticletypes->Write();
+  hphi->Write();
+  htheta->Write();
+  himpulse->Write();
+  htrimp->Write();
+  henergy->Write();
+  h_all_invmass->Write();
+  h_samecharge_invmass->Write();
+  h_diffcharge_invmass->Write();
+  h_pk_samesign_invmass->Write();
+  h_pk_diffsign_invmass->Write();
+  h_decayed_invmass->Write();
+  FileData->Close();
+  std::cout << "Chiusura file ROOT completata." << std::endl;
 
   app.Run();
 }
