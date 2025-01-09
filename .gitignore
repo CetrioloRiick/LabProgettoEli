@@ -34,6 +34,8 @@ c_cpp_properties.json
 *.exe
 *.out
 *.app
+*.run
 
 # Roba di ROOT
 *.pcm
+*.root
